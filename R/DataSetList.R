@@ -1,18 +1,3 @@
-# This file contains some functions for reading, aligning, analyzing the raw data
-# from the pseudo-boolean benchmarking
-#
-# Author: Hao Wang
-# Email: wangronin@gmail.com
-#
-# TODO:
-#   1. add Roxygen docs
-#   2. perhaps migrate to data.table completely for speed concern and simplicity
-#   3. maybe separate DataSetList class from DataSet class
-
-suppressMessages(library(magrittr))
-suppressMessages(library(reshape2))
-suppressMessages(library(data.table))
-
 # read all raw data files in a give directory
 read_dir <- function(path, verbose = T, print_fun = NULL, maximization = TRUE,
                      format = IOHprofiler, subsampling = FALSE) {
@@ -79,7 +64,7 @@ DataSetList <- function(path = NULL, verbose = T, print_fun = NULL, maximization
 
       # check for duplicated instances
       if (length(object) != 0) {
-        idx <- sapply(object, . %>% `==`(data)) %>% which
+        idx <- sapply(object, function(obj) obj == data) %>% which
         for (k in idx) {
           instance_ <- attr(object[[k]], 'instance')
           if (all(instance == instance_)) {
